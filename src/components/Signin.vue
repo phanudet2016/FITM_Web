@@ -2,6 +2,7 @@
   <div class="hello">
     <div class="form-box">
       <div class="head">Welcome Back</div>
+      <!-- <div>Lesson</div> -->
       <form action="#" id="login-form">
         <img style="height:300px;width:300px" src="../assets/logo.png">
         <br><br><br>
@@ -18,7 +19,7 @@
 import { ItemsRef, FIREBASE_AUTH, PROVIDER_AUTH } from './firebase'
 
 export default {
-  name: 'HelloWorld',
+  name: 'signin',
   data () {
     return {
       data: ''
@@ -29,7 +30,7 @@ export default {
       if (data) {
         console.log(data)
         if (data.I) {
-          this.$router.push('/lessoncomponent')
+          this.$router.push('/Subjects')
         }
       }
     })
@@ -39,7 +40,6 @@ export default {
   },
   methods: {
     Authenticate () {
-      ItemsRef.push({item: '55'})
       FIREBASE_AUTH.signInWithPopup(PROVIDER_AUTH).then(function (result) {
         let token = result.credential.accessToken
         let user = result.user
