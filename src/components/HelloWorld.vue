@@ -1,0 +1,235 @@
+<template>
+  <div class="hello">
+    <div class="form-box">
+      <div class="head">Welcome Back</div>
+      <form action="#" id="login-form">
+        <img style="height:300px;width:300px" src="../assets/logo.png">
+        <br><br><br>
+        <button class="btnStyle" @click="Authenticate()">
+          <img style="height:56px;width:56px;margin-top:-1px;margin-left:-19px;margin-right:20px;" src="../assets/logoSignin.jpg">
+          Sign in with Google +
+        </button>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script>
+import { ItemsRef, FIREBASE_AUTH, PROVIDER_AUTH } from './firebase'
+
+export default {
+  name: 'HelloWorld',
+  data () {
+    return {
+      data: ''
+    }
+  },
+  mounted () {
+    FIREBASE_AUTH.onAuthStateChanged((data) => {
+      if (data) {
+        console.log(data)
+        if (data.I) {
+          this.$router.push('/lessoncomponent')
+        }
+      }
+    })
+  },
+  firebase: {
+    items: ItemsRef
+  },
+  methods: {
+    Authenticate () {
+      ItemsRef.push({item: '55'})
+      FIREBASE_AUTH.signInWithPopup(PROVIDER_AUTH).then(function (result) {
+        let token = result.credential.accessToken
+        let user = result.user
+        console.log(token, user)
+      }).catch(function (error) {
+        let errorCode = error.code
+        let errorMessage = error.message
+        let email = error.email
+        let credential = error.credential
+        console.log(errorCode, errorMessage, email, credential)
+      })
+    }
+  }
+}
+</script>
+
+<style scoped>
+h1, h2 {
+  font-weight: normal;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
+
+.btnStyle {
+  background-color: #4285f4;
+  border: #4285f4 1px solid;
+  color: white;
+  height: 58px;
+  width: 255px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.btnStyle:hover {
+  box-shadow: 0 1px 8px 0 rgba(0,0,0,0.2), 0 1px 10px 0 rgba(0,0,0,0.19);
+}
+
+.form-box{
+  background: #fff;
+  margin: 30px auto;
+  max-width: 500px;
+  box-shadow: 0 3px 6px 0px rgba(0,0,0,0.16), 0 3px 6px 0px rgba(0,0,0,0.23);
+}
+form#login-form {
+  overflow: hidden;
+  position: relative;
+  padding: 40px;
+}
+.head {
+  color: #fff;
+  font-size: 34px;
+  font-weight: normal;
+  padding: 50px 0;
+  text-align: center;
+  text-transform: uppercase;
+  background: #6498fe;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.form-group .label-control {
+  color: #888;
+  display: block;
+  font-size: 14px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  width: 100%;
+  pointer-events: none;
+  height: 100%;
+}
+.form-group .label-control::before,
+.form-group .label-control::after{
+  content: "";
+  left: 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.form-group .label-control::before{
+  border-bottom: 1px solid #B9C1CA;
+  transition: transform 0.3s;
+  -webkit-transition: -webkit-transform 0.3s;
+}
+
+.form-group .label-control::after {
+  border-bottom: 2px solid #03A9F4;
+  -webkit-transform: translate3d(-100%, 0, 0);
+  transform: translate3d(-100%, 0, 0);
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+}
+
+.form-control {
+  border: none;
+  border-radius: 0;
+  margin-top: 20px;
+  padding: 12px 0;
+  width: 100%;
+  font-size: 14px;
+}
+.form-control:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.form-group .label-control .label-text {
+  -webkit-transform: translate3d(0, 30px, 0) scale(1);
+  -moz-transform: translate3d(0, 30px, 0) scale(1);
+  transform: translate3d(0, 30px, 0) scale(1);
+  -webkit-transform-origin: left top;
+  -moz-transform-origin: left top;
+  transform-origin: left top;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  transition: 0.3s;
+  position: absolute;
+}
+.active .label-control::after {
+  -webkit-transform: translate3d(0%, 0, 0);
+  transform: translate3d(0%, 0, 0);
+}
+.active .label-control .label-text {
+  opacity: 1;
+  -webkit-transform: scale(0.9);
+  -moz-transform: scale(0.9);
+  transform: scale(0.9);
+  color: #03A9F4 !important;
+}
+
+.input-field label:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid #B9C1CA;
+  transition: transform 0.3s;
+  -webkit-transition: -webkit-transform 0.3s;
+}
+
+input.btn[type="submit"] {
+  background: #6498fe;
+  border:none;
+  border-radius: 2px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin: 5px 0;
+  outline: medium none;
+  overflow: hidden;
+  padding: 10px;
+  text-transform: uppercase;
+  transition: all 0.15s ease-in-out 0s;
+  width: 100%;
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.16), 0 1px 2px 0px rgba(0,0,0,0.23);
+}
+input.btn[type="submit"]:hover {
+  background: #4b81eb;
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.16), 0 2px 4px 0px rgba(0,0,0,0.23);
+}
+.text-p {
+  font-size: 14px;
+  text-align: center;
+  margin: 10px 0;
+}
+.text-p a {
+  color: #175690;
+}
+
+</style>
