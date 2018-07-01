@@ -9,12 +9,15 @@
     <img :src="photoURL" style="border-radius:200px;width:200px;height:200px;"> -->
     <div class="card">
       <div class="card-body" style="text-align:right;">
-        <a class="navbar-brand">{{displayName}}</a>
-        <img :src="photoURL" style="border-radius:50px;width:50px;height:50px;">
+        <a class="navbar-brand">
+          {{displayName}}<br>
+          <button @click="SignOut()" type="button" class="btn btn-primary btn-sm" style="background-color:#f1c40f;border:none;">sign out</button>
+        </a>
+        <img :src="photoURL" style="border-radius:60px;width:60px;height:60px;margin-top:-30px;">
       </div>
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#4285f4;">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#3498db;">
       <a class="navbar-brand" style="color:#fff;">Home</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
