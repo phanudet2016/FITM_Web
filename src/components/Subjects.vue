@@ -18,14 +18,14 @@
     </div>
 
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#3498db;">
-      <a class="navbar-brand" style="color:#fff;">Home</a>
+      <a class="navbar-brand" style="color:#fff;">Lesson 24 Hour 😊</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#" style="color:#fff;">current <span class="sr-only">(current)</span></a>
+            <!-- <a class="nav-link" href="#" style="color:#fff;">current <span class="sr-only">(current)</span></a> -->
           </li>
         </ul>
         <span class="navbar-text">
@@ -33,28 +33,36 @@
         </span>
       </div>
     </nav>
-
     <br>
-    <div class="input-group mb-3" v-if="showAddSubject === true">
-      <input type="text" class="form-control" placeholder="เพิ่มวิชา" aria-label="Recipient's username" aria-describedby="basic-addon2">
+    <div class="input-group mb-3" v-if="showAddSubject === true" style="box-shadow: 0 1px 8px 0 rgba(0,0,0,0.2), 0 1px 10px 0 rgba(0,0,0,0.19);">
+      <input v-model="subjectVal" @keydown.enter.prevent="addSubject()" type="text" class="form-control" placeholder="Add Subject..." aria-label="Recipient's username" aria-describedby="basic-addon2">
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">+</button>
+        <button @click="addSubject()" class="btn btn-outline-secondary" type="button">+</button>
         <button @click="hideAddSubjectFc()" class="btn btn-outline-secondary" type="button">x</button>
       </div>
     </div>
-    <div class="card" style="width: 18rem;">
-      <div class="card-header">Featured</div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Vestibulum at eros</li>
-      </ul>
+
+    <div class="my-3 p-3 bg-white rounded box-shadow" style="box-shadow: 0 1px 8px 0 rgba(0,0,0,0.2), 0 1px 10px 0 rgba(0,0,0,0.19);">
+      <h6 class="border-bottom border-gray pb-2 mb-0 font-weight-bold" style="text-align:left;font-size:15px;"><a style="font-size:18px;">📗</a> SUBJECTS</h6>
+      <div v-for="subject in subjects" :key="subject['.key']" class="media text-muted pt-3" style="text-align:left;">
+        <button type="button" class="btn btn-primary btn-sm mr-2 rounded font-weight-bold" :style="subject.backgroundColor" style="border:none;width: 40px; height: 40px;margin-top:-5px;">{{(subject.nameSubject.toUpperCase()).substring(0, 1)}}</button>
+        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray" style="height:40px;font-size:15px;">
+          <strong class="d-block text-gray-dark">
+            {{subject.nameSubject}}
+            <div style="text-align:right;">
+              <button type="button" class="btn btn-primary btn-sm" style="background-color:#f1c40f;border:none;margin-top:-45px;"><a style="font-size:15px;">✏️</a> Edit</button>
+              <button type="button" class="btn btn-primary btn-sm" style="background-color:#f1c40f;border:none;margin-top:-45px;"><a style="font-size:15px;">🗑️</a> Delete</button>
+            </div>
+          </strong>
+        </p>
+      </div>
     </div>
+
   </div>
 </template>
 
 <script>
-import { ItemsRef, FIREBASE_AUTH } from './firebase'
+import { subjectRef, FIREBASE_AUTH } from './firebase'
 
 export default {
   name: 'subjects',
@@ -65,7 +73,9 @@ export default {
       displayName: '',
       photoURL: '',
       // -------------------------
-      showAddSubject: false
+      showAddSubject: false,
+
+      subjectVal: ''
     }
   },
   mounted () {
@@ -78,10 +88,36 @@ export default {
       }
     })
   },
+  computed: {
+    color: function () {
+      var num = Math.round(0xffffff * Math.random())
+      var r = num >> 16
+      var g = num >> 8 & 255
+      var b = num & 255
+      return `background: rgb(${r}, ${g}, ${b});`
+    }
+  },
   firebase: {
-    items: ItemsRef
+    subjects: subjectRef
   },
   methods: {
+    addSubject () {
+      if (this.subjectVal !== '') {
+        // random RGB
+        let num = Math.round(0xffffff * Math.random())
+        let r = num >> 16
+        let g = num >> 8 & 255
+        let b = num & 255
+        let backgroundColor = `background: rgb(${r}, ${g}, ${b});`
+        // *****************************************************
+
+        subjectRef.push({
+          nameSubject: this.subjectVal,
+          backgroundColor: backgroundColor
+        })
+      }
+      this.subjectVal = ''
+    },
     SignOut () {
       FIREBASE_AUTH.signOut().then(function () {
         console.log('signOut sucess')

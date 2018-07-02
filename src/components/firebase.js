@@ -17,4 +17,4 @@ provider.setCustomParameters({
 export const db = firebase.database()
 export const FIREBASE_AUTH = firebase.auth()
 export const PROVIDER_AUTH = provider
-export const ItemsRef = db.ref('Items')
+export const subjectRef = db.ref('Subjects')
