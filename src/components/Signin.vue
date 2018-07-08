@@ -1,22 +1,22 @@
 <template>
   <div class="hello">
     <div class="form-box">
-      <div class="head">Welcome Back</div>
+      <div class="head">🎉 Welcome Back 🎈</div>
       <!-- <div>Lesson</div> -->
-      <form action="#" id="login-form">
+      <div class="body-form" id="login-form">
         <img style="height:300px;width:300px" src="../assets/logo.png">
         <br><br><br>
-        <button class="btnStyle" @click="Authenticate()">
+        <button class="btnStyle" @click="signin()">
           <img style="height:56px;width:56px;margin-top:-1px;margin-left:-19px;margin-right:20px;" src="../assets/logoSignin.jpg">
           Sign in with Google +
         </button>
-      </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { ItemsRef, FIREBASE_AUTH, PROVIDER_AUTH } from './firebase'
+import { FIREBASE_AUTH, PROVIDER_AUTH } from './firebase'
 
 export default {
   name: 'signin',
@@ -35,11 +35,8 @@ export default {
       }
     })
   },
-  firebase: {
-    items: ItemsRef
-  },
   methods: {
-    Authenticate () {
+    signin () {
       FIREBASE_AUTH.signInWithPopup(PROVIDER_AUTH).then(function (result) {
         let token = result.credential.accessToken
         let user = result.user
@@ -97,7 +94,7 @@ a {
   max-width: 500px;
   box-shadow: 0 3px 6px 0px rgba(0,0,0,0.16), 0 3px 6px 0px rgba(0,0,0,0.23);
 }
-form#login-form {
+.body-form#login-form {
   overflow: hidden;
   position: relative;
   padding: 40px;
@@ -201,7 +198,7 @@ form#login-form {
   -webkit-transition: -webkit-transform 0.3s;
 }
 
-input.btn[type="submit"] {
+/* input.btn[type="submit"] {
   background: #6498fe;
   border:none;
   border-radius: 2px;
@@ -218,11 +215,11 @@ input.btn[type="submit"] {
   transition: all 0.15s ease-in-out 0s;
   width: 100%;
   box-shadow: 0 1px 2px 0px rgba(0,0,0,0.16), 0 1px 2px 0px rgba(0,0,0,0.23);
-}
-input.btn[type="submit"]:hover {
+} */
+/* input.btn[type="submit"]:hover {
   background: #4b81eb;
   box-shadow: 0 2px 4px 0px rgba(0,0,0,0.16), 0 2px 4px 0px rgba(0,0,0,0.23);
-}
+} */
 .text-p {
   font-size: 14px;
   text-align: center;
@@ -230,6 +227,14 @@ input.btn[type="submit"]:hover {
 }
 .text-p a {
   color: #175690;
+}
+
+@media screen and (max-width: 800px) {
+  .form-box {
+    width: 95%; /* เมื่อความกว้างน้อยกว้า 800px ขนาดความกว่างจะเป็น 95% */
+    margin: auto;
+    height: 659px;
+  }
 }
 
 </style>

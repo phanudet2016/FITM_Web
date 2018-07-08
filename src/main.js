@@ -4,10 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import VueFire from 'vuefire'
+import VueCookie from 'vue-cookie'
 
+Vue.use(VueCookie)
 Vue.use(VueFire)
 Vue.config.productionTip = false
 
+export const EventBus = new Vue()
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

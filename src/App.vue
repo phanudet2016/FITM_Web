@@ -5,6 +5,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'App'
 }
@@ -17,10 +18,11 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 40px;
+  margin-top: 10px;
 }
 
 body {
   background-color: #f8f9fa;
+  /* background-color: #3c40c6; rgb(255,160,0) */
 }
 </style>

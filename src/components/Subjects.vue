@@ -18,7 +18,9 @@
     </div>
 
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#3498db;">
-      <a class="navbar-brand" style="color:#fff;">Lesson 24 Hour 😊</a>
+      <router-link to="/subjects">
+        <a class="navbar-brand" style="color:#fff;">Classroom 4U 😊🕒</a>
+      </router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -37,21 +39,26 @@
     <div class="input-group mb-3" v-if="showAddSubject === true" style="box-shadow: 0 1px 8px 0 rgba(0,0,0,0.2), 0 1px 10px 0 rgba(0,0,0,0.19);">
       <input v-model="subjectVal" @keydown.enter.prevent="addSubject()" type="text" class="form-control" placeholder="Add Subject..." aria-label="Recipient's username" aria-describedby="basic-addon2">
       <div class="input-group-append">
-        <button @click="addSubject()" class="btn btn-outline-secondary" type="button">+</button>
-        <button @click="hideAddSubjectFc()" class="btn btn-outline-secondary" type="button">x</button>
+        <button @click="addSubject()" class="btn btn-outline-secondary" type="button" style="background-color:#fff;color:#3498db;border:1px solid #3498db;">+</button>
+        <button @click="hideAddSubjectFc()" class="btn btn-outline-secondary" type="button" style="background-color:#fff;color:#3498db;border:1px solid #3498db;">x</button>
       </div>
     </div>
 
     <div class="my-3 p-3 bg-white rounded box-shadow" style="box-shadow: 0 1px 8px 0 rgba(0,0,0,0.2), 0 1px 10px 0 rgba(0,0,0,0.19);">
       <h6 class="border-bottom border-gray pb-2 mb-0 font-weight-bold" style="text-align:left;font-size:15px;"><a style="font-size:18px;">📗</a> SUBJECTS</h6>
       <div v-for="subject in subjects" :key="subject['.key']" class="media text-muted pt-3" style="text-align:left;">
-        <button type="button" class="btn btn-primary btn-sm mr-2 rounded font-weight-bold" :style="subject.backgroundColor" style="border:none;width: 40px; height: 40px;margin-top:-5px;">{{(subject.nameSubject.toUpperCase()).substring(0, 1)}}</button>
+        <router-link to="/lesson">
+          <button @click="sendCookie(subject['.key'], subject.nameSubject, subject.backgroundColor)" type="button" class="btn btn-primary btn-sm mr-2 rounded font-weight-bold" :style="subject.backgroundColor" style="border:none;width: 40px; height: 40px;margin-top:-5px;">{{(subject.nameSubject.toUpperCase()).substring(0, 1)}}</button>
+        </router-link>
         <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray" style="height:40px;font-size:15px;">
           <strong class="d-block text-gray-dark">
-            {{subject.nameSubject}}
+            <router-link to="/lesson" style="text-decoration: none;color:inherit;">
+              {{subject.nameSubject}}
+            </router-link>
             <div style="text-align:right;">
-              <button type="button" class="btn btn-primary btn-sm" style="background-color:#f1c40f;border:none;margin-top:-45px;"><a style="font-size:15px;">✏️</a> Edit</button>
-              <button type="button" class="btn btn-primary btn-sm" style="background-color:#f1c40f;border:none;margin-top:-45px;"><a style="font-size:15px;">🗑️</a> Delete</button>
+              <!-- <button type="button" class="btn btn-primary btn-sm" style="background-color:#f1c40f;border:none;margin-top:-45px;"><a style="font-size:15px;">💾</a> Save</button> -->
+              <!-- <button type="button" class="btn btn-primary btn-sm" style="background-color:#f1c40f;border:none;margin-top:-45px;"><a style="font-size:15px;">✏️</a> Edit</button> -->
+              <button @click="deleteSubject(subject['.key'])" type="button" class="btn btn-primary btn-sm" style="background-color:#f1c40f;border:none;margin-top:-45px;"><a style="font-size:15px;">🗑️</a> Delete</button>
             </div>
           </strong>
         </p>
@@ -101,6 +108,11 @@ export default {
     subjects: subjectRef
   },
   methods: {
+    sendCookie (keySubject, nameSubject, backgroundColor) {
+      this.$cookie.set('keySubject', keySubject)
+      this.$cookie.set('checkSubject', nameSubject)
+      this.$cookie.set('checkBgColor', backgroundColor)
+    },
     addSubject () {
       if (this.subjectVal !== '') {
         // random RGB
@@ -113,10 +125,21 @@ export default {
 
         subjectRef.push({
           nameSubject: this.subjectVal,
-          backgroundColor: backgroundColor
+          backgroundColor: backgroundColor,
+          teacherName: this.displayName
         })
       }
       this.subjectVal = ''
+    },
+    deleteSubject (key) {
+      subjectRef.child(key).remove()
+    },
+    deleteCookie () {
+      this.$cookie.delete('keySubject')
+      this.$cookie.delete('checkSubject')
+      this.$cookie.delete('checkBgColor')
+      this.$cookie.delete('indexChapter')
+      this.$cookie.delete('youtubeUrlEmbed')
     },
     SignOut () {
       FIREBASE_AUTH.signOut().then(function () {
@@ -126,6 +149,9 @@ export default {
       this.displayName = ''
       this.photoURL = ''
       this.$router.push('/')
+
+      // Delete Cookle
+      this.deleteCookie()
     },
     showAddSubjectFc () {
       this.showAddSubject = true
@@ -182,5 +208,12 @@ a {
 }
 .navbar {
   box-shadow: 0 1px 8px 0 rgba(0,0,0,0.2), 0 1px 10px 0 rgba(0,0,0,0.19);
+}
+
+@media screen and (max-width: 800px) {
+  .hello {
+    width: 95%; /* เมื่อความกว้างน้อยกว้า 800px ขนาดความกว่างจะเป็น 95% */
+    margin: auto;
+  }
 }
 </style>

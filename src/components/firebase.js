@@ -8,13 +8,12 @@ var config = {
   messagingSenderId: '70705103923'
 }
 firebase.initializeApp(config)
-let provider = new firebase.auth.GoogleAuthProvider()
+
+var provider = new firebase.auth.GoogleAuthProvider()
 provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
-provider.setCustomParameters({
-  'login_hint': 'user@example.com'
-})
 
 export const db = firebase.database()
 export const FIREBASE_AUTH = firebase.auth()
 export const PROVIDER_AUTH = provider
+export const FIREBASE_STORE = firebase.storage()
 export const subjectRef = db.ref('Subjects')
