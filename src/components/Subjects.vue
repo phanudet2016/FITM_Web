@@ -57,7 +57,7 @@
             </router-link>
             <div style="text-align:right;">
               <!-- <button type="button" class="btn btn-primary btn-sm" style="background-color:#f1c40f;border:none;margin-top:-45px;"><a style="font-size:15px;">💾</a> Save</button> -->
-              <!-- <button type="button" class="btn btn-primary btn-sm" style="background-color:#f1c40f;border:none;margin-top:-45px;"><a style="font-size:15px;">✏️</a> Edit</button> -->
+              <router-link to="/score"><button @click="sendCookie(subject['.key'], subject.nameSubject, subject.backgroundColor)" type="button" class="btn btn-primary btn-sm" style="background-color:rgb(52, 152, 219);;border:none;margin-top:-45px;"><a style="font-size:15px;">🎯</a> Score</button></router-link>
               <button @click="deleteSubject(subject['.key'])" type="button" class="btn btn-primary btn-sm" style="background-color:#f1c40f;border:none;margin-top:-45px;"><a style="font-size:15px;">🗑️</a> Delete</button>
             </div>
           </strong>
